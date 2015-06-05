@@ -23,8 +23,11 @@ public class SMCEvolution {
 
 	public static List<Integer> getGlobalCountList(
 			List<DoubleRead> doubleReadList) {
-		List<Integer> result = doubleReadList.get(0).getCountList();
-		for (int i = 1; i < doubleReadList.size(); i++) {
+		List<Integer> result = new ArrayList<Integer>();
+		for (int i = 0; i < doubleReadList.get(0).getCountList().size(); i++) {
+			result.add(0);
+		}
+		for (int i = 0; i < doubleReadList.size(); i++) {
 			List<Integer> temp = doubleReadList.get(i).getCountList();
 			for (int j = 0; j < result.size(); j++) {
 				result.set(j, result.get(j) + temp.get(j));
@@ -221,13 +224,13 @@ public class SMCEvolution {
 								startPos[k]);
 			}
 			for (int k = 0; k < transProbList.size(); k++) {
-//				probability *= Math.pow(
-//						Math.E,
-//						transProbList.get(k)
-//								* Math.log(doubleReadList.get(readId)
-//										.getCountList().get(k)));
-				 probability *= Math.pow(transProbList.get(k), doubleReadList
-				 .get(readId).getCountList().get(k));
+				// probability *= Math.pow(
+				// Math.E,
+				// transProbList.get(k)
+				// * Math.log(doubleReadList.get(readId)
+				// .getCountList().get(k)));
+				probability *= Math.pow(transProbList.get(k), doubleReadList
+						.get(readId).getCountList().get(k));
 
 			}
 			totalSum += probability;
@@ -278,14 +281,14 @@ public class SMCEvolution {
 							.get(groupId - 1).get(startPos[k]);
 				}
 				for (int k = 0; k < transProbList.size(); k++) {
-//					probMatrix[groupId - 1][sampleId] *= Math.pow(
-//							Math.E,
-//							transProbList.get(k)
-//									* Math.log(doubleReadList.get(readId)
-//											.getCountList().get(k)));
-					 probMatrix[groupId - 1][sampleId] *= Math.pow(
-					 transProbList.get(k), doubleReadList.get(readId)
-					 .getCountList().get(k));
+					// probMatrix[groupId - 1][sampleId] *= Math.pow(
+					// Math.E,
+					// transProbList.get(k)
+					// * Math.log(doubleReadList.get(readId)
+					// .getCountList().get(k)));
+					probMatrix[groupId - 1][sampleId] *= Math.pow(
+							transProbList.get(k), doubleReadList.get(readId)
+									.getCountList().get(k));
 				}
 			}
 
@@ -488,13 +491,6 @@ public class SMCEvolution {
 
 			zMatrix.set(readId, zList);
 
-			int count_1 = 0;
-			for (int i = 0; i < zList.size(); i++) {
-				if (zList.get(i) == 1) {
-					count_1++;
-				}
-			}
-			System.out.println(count_1);
 			System.out.println("Updating weight");
 
 			weightList = updateWeightList(sampleCountSum, doubleReadList,
@@ -664,8 +660,8 @@ public class SMCEvolution {
 	}
 
 	public static void main(String[] args) throws Exception {
-		// mainTask("/home/xinping/Desktop/6008/test.txt", 0.001, 100, 1, 0.9,
-		// true);
+		// mainTask("/home/xinping/Desktop/6008/abundance_species_equal.txt",
+		// 0.0000001, 100, 1, 0.9, false);
 		// TODO Auto-generated method stub
 		if (args.length == 0) {
 			printHelp();
