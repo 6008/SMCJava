@@ -16,7 +16,7 @@ import org.ahocorasick.trie.Trie.TrieBuilder;
 public class BinTask {
 
 	public static void printUsage() {
-		System.out.println("java -jar SMCbin.jar abundance_species_equal.txt -o ./bins/ -w 6");
+		System.out.println("java -jar SMCbin.jar abundance_species_equal.txt -o output.bin -w 6");
 		System.out.println("The sequences should be pair end. Param w should be integer.");
 	}
 	
@@ -59,7 +59,7 @@ public class BinTask {
 		
 	}
 	
-	public static void mainJob(String inputFileName, String outputDirName, Integer windowLength) throws Exception {
+	public static void mainJob(String inputFileName, String outputFileName, Integer windowLength) throws Exception {
 		
 		List<TrieBuilder> trieList = new ArrayList<TrieBuilder>();
 		List<List<Integer>> doubleReadList = new ArrayList<List<Integer>>();
@@ -129,22 +129,22 @@ public class BinTask {
 		
 		//Output each doubleReadList
 		
-		PrintWriter pw;
+		PrintWriter pw = new PrintWriter(new FileWriter(new File(outputFileName)));
 		
 		for (int i = 0; i < doubleReadList.size(); i++) {
-			pw = new PrintWriter(new FileWriter(new File(outputDirName + "/" + i + ".bin")));
 			
 			for (int j = 0; j < doubleReadList.get(i).size(); j++) {
-				pw.println(doubleReadList.get(i).get(j));
+				pw.print(doubleReadList.get(i).get(j));
+				pw.print("\t");
 			}
-			
-			pw.close();
+			pw.println();
 		}
+		pw.close();
 	}
 	
 	public static void main(String[] args) throws Exception {
 
-		String outputDir = "./";
+		String outputFileName = "output.bin";
 		Integer w = 36;
 		
 		if (0 == args.length) {
@@ -153,7 +153,7 @@ public class BinTask {
 		}
 		
 		if (1 == args.length) {
-			mainJob(args[0], outputDir, w);
+			mainJob(args[0], outputFileName, w);
 		} else {
 			
 			int pos = 0;
@@ -162,7 +162,7 @@ public class BinTask {
 					switch (args[pos].charAt(1)) {
 					case 'o':
 					case 'O':
-						outputDir = args[pos + 1];
+						outputFileName = args[pos + 1];
 						break;
 					case 'w':
 					case 'W':
@@ -179,7 +179,7 @@ public class BinTask {
 				}
 				pos += 2;
 			}
-			mainJob(args[0], outputDir, w);
+			mainJob(args[0], outputFileName, w);
 		}
 	}
 
