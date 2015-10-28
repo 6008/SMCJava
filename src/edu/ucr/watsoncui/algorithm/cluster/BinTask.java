@@ -156,7 +156,7 @@ public class BinTask {
 			mainJob(args[0], outputFileName, w);
 		} else {
 			
-			int pos = 0;
+			int pos = 1;
 			while (pos < args.length - 1) {
 				if (args[pos].charAt(0) == '-') {
 					switch (args[pos].charAt(1)) {
